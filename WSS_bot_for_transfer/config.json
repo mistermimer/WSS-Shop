@@ -1,0 +1,234 @@
+{
+  "guild_id": 1476274337802752166,
+  "ticket_category_id": 0,
+  "staff_role_id": 1479181834725359717,
+  "log_channel_id": 0,
+  "panel_channel_id": 1560780279868555324,
+  "save_transcripts": false,
+  "max_open_tickets_per_user": 1,
+  "ticket_name_prefix": "order",
+  "accent_color": "#2ecc71",
+  "panel": {
+    "banner": "",
+    "title": "WSS Boost & Service",
+    "subtitle": "WoW boosting services: raids, PvP, leveling, gear, gold and more.",
+    "sections": [
+      {
+        "text": "**First time here?**\n-# Press «Info» to see how an order works.",
+        "button": {
+          "type": "info",
+          "label": "Info",
+          "emoji": "ℹ️",
+          "id": "info"
+        }
+      },
+      {
+        "text": "⭐ **Customer reviews**\n-# See what our customers say.",
+        "button": {
+          "type": "link",
+          "label": "Reviews",
+          "emoji": "⭐",
+          "url": "https://discord.com/channels/1476274337802752166/1476283095341596762"
+        }
+      }
+    ],
+    "info_texts": {
+      "info": "**How an order works**\n1. Click a service.\n2. Pick an option and a payment method.\n3. The bot opens a private ticket where a manager will reply.\n4. Pay, get your boost, then both you and the manager press «Order completed»."
+    },
+    "services_title": "Choose a service",
+    "fast_button_label": "Quick Order",
+    "bulk_button_label": "Bulk Order",
+    "footer": ""
+  },
+  "services": [
+    {
+      "id": "raid",
+      "name": "Raid",
+      "emoji": "⚔️",
+      "description": "Raid carries and loot runs.",
+      "price": "on request",
+      "options": {
+        "title": "Choose a raid",
+        "choices": [
+          {
+            "label": "Karazhan",
+            "price": "on request"
+          },
+          {
+            "label": "Gruul's Lair",
+            "price": "on request"
+          },
+          {
+            "label": "Magtheridon's Lair",
+            "price": "on request"
+          },
+          {
+            "label": "Serpentshrine Cavern",
+            "price": "on request"
+          },
+          {
+            "label": "Tempest Keep",
+            "price": "on request"
+          },
+          {
+            "label": "Other",
+            "price": "on request"
+          }
+        ]
+      }
+    },
+    {
+      "id": "leveling",
+      "name": "Boost leveling",
+      "emoji": "📈",
+      "description": "Character leveling boost.",
+      "price": "on request",
+      "options": {
+        "title": "Choose levels",
+        "choices": [
+          {
+            "label": "1-60",
+            "price": "on request"
+          },
+          {
+            "label": "60-70",
+            "price": "on request"
+          },
+          {
+            "label": "1-70",
+            "price": "on request"
+          },
+          {
+            "label": "Other",
+            "price": "on request"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gold",
+      "name": "Gold",
+      "emoji": "💰",
+      "description": "Fast gold delivery.",
+      "price": "on request",
+      "options": {
+        "title": "Choose amount",
+        "choices": [
+          {
+            "label": "1,000 gold",
+            "price": "on request"
+          },
+          {
+            "label": "5,000 gold",
+            "price": "on request"
+          },
+          {
+            "label": "10,000 gold",
+            "price": "on request"
+          },
+          {
+            "label": "Other amount",
+            "price": "on request"
+          }
+        ]
+      }
+    },
+    {
+      "id": "professions",
+      "name": "Profession Kits",
+      "emoji": "🧰",
+      "description": "Profession leveling kits.",
+      "price": "on request",
+      "options": {
+        "title": "Choose a profession",
+        "choices": [
+          {
+            "label": "Alchemy",
+            "price": "on request"
+          },
+          {
+            "label": "Blacksmithing",
+            "price": "on request"
+          },
+          {
+            "label": "Enchanting",
+            "price": "on request"
+          },
+          {
+            "label": "Engineering",
+            "price": "on request"
+          },
+          {
+            "label": "Jewelcrafting",
+            "price": "on request"
+          },
+          {
+            "label": "Leatherworking",
+            "price": "on request"
+          },
+          {
+            "label": "Tailoring",
+            "price": "on request"
+          },
+          {
+            "label": "Other",
+            "price": "on request"
+          }
+        ]
+      }
+    },
+    {
+      "id": "reputation",
+      "name": "Reputation",
+      "emoji": "🎖️",
+      "description": "Reputation farming.",
+      "price": "on request",
+      "options": {
+        "title": "Choose a faction",
+        "choices": [
+          {
+            "label": "Aldor",
+            "price": "on request"
+          },
+          {
+            "label": "Scryers",
+            "price": "on request"
+          },
+          {
+            "label": "Cenarion Expedition",
+            "price": "on request"
+          },
+          {
+            "label": "The Sha'tar",
+            "price": "on request"
+          },
+          {
+            "label": "Honor Hold / Thrallmar",
+            "price": "on request"
+          },
+          {
+            "label": "Other",
+            "price": "on request"
+          }
+        ]
+      }
+    }
+  ],
+  "payment_methods": [
+    {
+      "id": "card",
+      "name": "Bank card",
+      "emoji": "💳"
+    },
+    {
+      "id": "paypal",
+      "name": "PayPal",
+      "emoji": "🅿️"
+    },
+    {
+      "id": "crypto",
+      "name": "Crypto",
+      "emoji": "🪙"
+    }
+  ]
+}
