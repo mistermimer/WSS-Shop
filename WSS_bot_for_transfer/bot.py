@@ -9,6 +9,7 @@ import io
 import json
 import os
 import re
+import time
 from pathlib import Path
 
 import discord
@@ -361,6 +362,7 @@ async def close_ticket(channel: discord.TextChannel, closer: discord.abc.User, n
 # ---------------------------------------------------------------- permanent panel
 
 PANEL_STATE_PATH = BASE_DIR / "data" / "panel.json"
+AUTO_CLOSE_SECONDS = 24 * 60 * 60  # сколько завершённый тикет висит у персонала
 
 
 async def sync_panel(client: discord.Client):
@@ -401,6 +403,22 @@ class ShopBot(discord.Client):
         else:
             await self.tree.sync()
         self.loop.create_task(self.keep_panel())
+        self.loop.create_task(self.auto_close_tickets())
+
+    async def auto_close_tickets(self):
+        """Удаляет завершённые тикеты, у которых истекли сутки (метка until= в топике канала)."""
+        await self.wait_until_ready()
+        while not self.is_closed():
+            try:
+                for guild in self.guilds:
+                    for channel in guild.text_channels:
+                        topic = channel.topic or ""
+                        m = re.search(r":until=(\d+)", topic)
+                        if topic.startswith("ticket:") and m and int(m.group(1)) <= time.time():
+                            await close_ticket(channel, self.user, " · auto-closed 24h after completion")
+            except Exception as e:
+                print(f"Auto-close error: {e}")
+            await asyncio.sleep(600)
 
     async def keep_panel(self):
         """Держит панель в канале panel_channel_id и обновляет её при изменении config.json."""
@@ -462,8 +480,8 @@ async def handle_ticket(interaction: discord.Interaction, cid: str):
             return
         await interaction.response.send_message(f"🙋 {member.mention} claimed this ticket and will reply soon.")
     elif action == "close":
-        if not (is_staff(member) or member.id == owner):
-            await interaction.response.send_message("Only the customer or staff can close this ticket.", ephemeral=True,
+        if not is_staff(member):
+            await interaction.response.send_message("Only staff can close this ticket.", ephemeral=True,
                                                     delete_after=10)
             return
         await interaction.response.send_message("Close this ticket? The channel will be deleted.",
@@ -488,8 +506,14 @@ async def handle_ticket(interaction: discord.Interaction, cid: str):
         status = (f"Customer: {'✅' if 'c' in flags else '⏳'}   Staff: {'✅' if 's' in flags else '⏳'}")
 
         if flags >= {"c", "s"}:
+            # Клиент теряет доступ сразу, у персонала тикет остаётся ещё на сутки
             await interaction.response.send_message(
-                f"## ✅ Order completed\n{status}\nThank you! This ticket will close in 10 seconds.")
+                f"## ✅ Order completed\n{status}\nThank you! The ticket is now closed for the customer.\n"
+                f"-# Staff: the channel will be deleted automatically in 24 hours, or close it with 🔒 Close.")
+            until = int(time.time()) + AUTO_CLOSE_SECONDS
+            await channel.edit(topic=(channel.topic or "") + f":{flag}:until={until}")
+            if owner:
+                await channel.set_permissions(discord.Object(id=owner), overwrite=None)
             await log(interaction.guild, f"✅ Order completed in `{channel.name}` (confirmed by customer and staff)")
             reviews = next((s["button"]["url"] for s in cfg()["panel"]["sections"]
                             if s.get("button", {}).get("type") == "link"), None)
@@ -501,8 +525,6 @@ async def handle_ticket(interaction: discord.Interaction, cid: str):
                         view=ui.View().add_item(ui.Button(label="Leave a review", emoji="⭐", url=reviews)))
                 except discord.HTTPException:
                     pass
-            await asyncio.sleep(10)
-            await close_ticket(channel, member, " · order completed")
             return
 
         other = "staff" if flag == "c" else "the customer"
