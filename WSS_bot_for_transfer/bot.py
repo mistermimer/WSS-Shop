@@ -125,4 +125,19 @@ def build_panel() -> tuple[ui.LayoutView, discord.File | None]:
         box.add_item(row)
 
     box.add_item(ui.Separator())
-    box.add_item(ui.ActionRow(
+        box.add_item(ui.Separator())
+    box.add_item(
+        ui.ActionRow(
+            ui.Button(
+                label=p["fast_button_label"],
+                emoji="⚡",
+                style=discord.ButtonStyle.success,
+                custom_id="panel:order:fast",
+            ),
+            ui.Button(
+                label=p["bulk_button_label"],
+                emoji="📦",
+                custom_id="panel:order:bulk",
+            ),
+        )
+    )
