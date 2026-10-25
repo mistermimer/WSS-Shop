@@ -474,7 +474,7 @@ async def handle_ticket(interaction: discord.Interaction, cid: str):
     action = cid.split(":")[1]
     member = interaction.user
     owner = ticket_owner_id(interaction.channel)
-    ```python
+    python
     if action == "claim":
         if not is_staff(member):
             await interaction.response.send_message(
