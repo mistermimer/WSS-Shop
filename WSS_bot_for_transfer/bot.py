@@ -474,7 +474,13 @@ async def handle_ticket(interaction: discord.Interaction, cid: str):
     action = cid.split(":")[1]
     member = interaction.user
     owner = ticket_owner_id(interaction.channel)
-     if action == "claim":
+        
+async def handle_ticket(interaction: discord.Interaction, cid: str):
+    action = cid.split(":")[1]
+    member = interaction.user
+    owner = ticket_owner_id(interaction.channel)
+
+    if action == "claim":
         if not is_staff(member):
             await interaction.response.send_message(
                 "Only staff can claim tickets.",
@@ -482,12 +488,23 @@ async def handle_ticket(interaction: discord.Interaction, cid: str):
                 delete_after=10,
             )
             return
+
         await interaction.response.send_message(
             f"👋 Hello! This is Bertash Alex, the server administrator. "
             f"How can I help you today? Let's discuss the service you've ordered. "
             f"Please tell me what you'd like to know, and I'll be happy to answer "
             f"your questions about your ticket."
         )
+
+    elif action == "close":
+        if not is_staff(member):
+            await interaction.response.send_message(
+                "Only staff can close tickets.",
+                ephemeral=True,
+                delete_after=10,
+            )
+            return
+
     elif action == "close":
         if not is_staff(member):
             await interaction.response.send_message("Only staff can close this ticket.", ephemeral=True,
