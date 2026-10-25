@@ -480,6 +480,7 @@ async def handle_ticket(interaction: discord.Interaction, cid: str):
     member = interaction.user
     owner = ticket_owner_id(interaction.channel)
 
+ 
     if action == "claim":
         if not is_staff(member):
             await interaction.response.send_message(
@@ -499,20 +500,20 @@ async def handle_ticket(interaction: discord.Interaction, cid: str):
     elif action == "close":
         if not is_staff(member):
             await interaction.response.send_message(
-                "Only staff can close tickets.",
+                "Only staff can close this ticket.",
                 ephemeral=True,
                 delete_after=10,
             )
             return
 
-    elif action == "close":
-        if not is_staff(member):
-            await interaction.response.send_message("Only staff can close this ticket.", ephemeral=True,
-                                                    delete_after=10)
-            return
-        await interaction.response.send_message("Close this ticket? The channel will be deleted.",
-                                                view=CloseConfirmView(), ephemeral=True)
+        await interaction.response.send_message(
+            "Close this ticket? The channel will be deleted.",
+            view=CloseConfirmView(),
+            ephemeral=True,
+        )
+
     elif action == "done":
+
         # Заказ завершён, когда подтвердили и клиент (флаг c), и персонал (флаг s)
         channel = interaction.channel
         if member.id == owner:
