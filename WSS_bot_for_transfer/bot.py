@@ -482,7 +482,6 @@ async def handle_ticket(interaction: discord.Interaction, cid: str):
                 delete_after=10,
             )
             return
-
         await interaction.response.send_message(
             f"👋 Hello! This is Bertash Alex, the server administrator. "
             f"How can I help you today? Let's discuss the service you've ordered. "
